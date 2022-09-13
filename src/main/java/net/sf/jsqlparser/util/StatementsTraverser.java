@@ -49,18 +49,10 @@ import net.sf.jsqlparser.statement.values.ValuesStatement;
 
 import java.util.*;
 
-import static net.sf.jsqlparser.expression.Alias.AliasColumn;
-import static net.sf.jsqlparser.schema.Sequence.Parameter;
-import static net.sf.jsqlparser.statement.DeclareStatement.TypeDefExpr;
-import static net.sf.jsqlparser.statement.ExplainStatement.Option;
-import static net.sf.jsqlparser.statement.ExplainStatement.OptionType;
-import static net.sf.jsqlparser.statement.alter.AlterExpression.ColumnDataType;
-import static net.sf.jsqlparser.statement.alter.AlterExpression.ColumnDropNotNull;
-import static net.sf.jsqlparser.statement.create.table.Index.ColumnParams;
-
 /**
  * Traversal of a statement - visit all parser objects.
  */
+@SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.ExcessiveMethodLength"})
 public class StatementsTraverser
     implements ExpressionVisitor, ItemsListVisitor, StatementVisitor, FromItemVisitor, PivotVisitor,
     GroupByVisitor, OrderByVisitor, SelectItemVisitor, SelectVisitor {
@@ -192,8 +184,10 @@ public class StatementsTraverser
     }
 
     List<WindowDefinition> windowDefinitions = plainSelect.getWindowDefinitions();
-    for (WindowDefinition windowDefinition : windowDefinitions) {
-      visit(windowDefinition);
+    if (windowDefinitions != null) {
+      for (WindowDefinition windowDefinition : windowDefinitions) {
+        visit(windowDefinition);
+      }
     }
 
     Limit limit = plainSelect.getLimit();
@@ -358,15 +352,15 @@ public class StatementsTraverser
   }
 
   public void visit(Alias alias) {
-    List<AliasColumn> aliasColumns = alias.getAliasColumns();
+    List<Alias.AliasColumn> aliasColumns = alias.getAliasColumns();
     if (aliasColumns != null) {
-      for (AliasColumn aliasColumn : aliasColumns) {
+      for (Alias.AliasColumn aliasColumn : aliasColumns) {
         visit(aliasColumn);
       }
     }
   }
 
-  public void visit(AliasColumn aliasColumn) {
+  public void visit(Alias.AliasColumn aliasColumn) {
     // nothing to do
   }
 
@@ -1047,20 +1041,20 @@ public class StatementsTraverser
 
   @Override
   public void visit(AllColumns allColumns) {
-    // TODO implement
-    throw getUnsupportedException(allColumns);
+    // nothing to do
   }
 
   @Override
   public void visit(AllTableColumns allTableColumns) {
-    // TODO implement
-    throw getUnsupportedException(allTableColumns);
+    Table table = allTableColumns.getTable();
+    if (table != null) {
+      table.accept(this);
+    }
   }
 
   @Override
   public void visit(AllValue allValue) {
-    // TODO implement
-    throw getUnsupportedException(allValue);
+    // nothing to do
   }
 
   @Override
@@ -1461,15 +1455,15 @@ public class StatementsTraverser
   }
 
   public void visit(Index index) {
-    List<ColumnParams> columnParamsList = index.getColumns();
+    List<Index.ColumnParams> columnParamsList = index.getColumns();
     if (columnParamsList != null) {
-      for (ColumnParams columnParams : columnParamsList) {
+      for (Index.ColumnParams columnParams : columnParamsList) {
         visit(columnParams);
       }
     }
   }
 
-  public void visit(ColumnParams columnParams) {
+  public void visit(Index.ColumnParams columnParams) {
     // nothing to do
   }
 
@@ -1580,16 +1574,17 @@ public class StatementsTraverser
     //    alterExpression.getPkColumns();
     //    alterExpression.getUkColumns();
 
-    List<ColumnDataType> columnDataTypeList = alterExpression.getColDataTypeList();
+    List<AlterExpression.ColumnDataType> columnDataTypeList = alterExpression.getColDataTypeList();
     if (columnDataTypeList != null) {
-      for (ColumnDataType columnDataType : columnDataTypeList) {
+      for (AlterExpression.ColumnDataType columnDataType : columnDataTypeList) {
         visit(columnDataType);
       }
     }
 
-    List<ColumnDropNotNull> columnDropNotNullList = alterExpression.getColumnDropNotNullList();
+    List<AlterExpression.ColumnDropNotNull> columnDropNotNullList =
+        alterExpression.getColumnDropNotNullList();
     if (columnDropNotNullList != null) {
-      for (ColumnDropNotNull columnDropNotNull : columnDropNotNullList) {
+      for (AlterExpression.ColumnDropNotNull columnDropNotNull : columnDropNotNullList) {
         visit(columnDropNotNull);
       }
     }
@@ -1614,7 +1609,7 @@ public class StatementsTraverser
     }
   }
 
-  public void visit(ColumnDropNotNull columnDropNotNull) {
+  public void visit(AlterExpression.ColumnDropNotNull columnDropNotNull) {
     // TODO handle column name
     //    columnDropNotNull.getColumnName();
   }
@@ -1948,9 +1943,9 @@ public class StatementsTraverser
 
   @Override
   public void visit(ExplainStatement explain) {
-    Map<OptionType, Option> options = explain.getOptions();
+    Map<ExplainStatement.OptionType, ExplainStatement.Option> options = explain.getOptions();
     if (options != null) {
-      for (Option option : options.values()) {
+      for (ExplainStatement.Option option : options.values()) {
         visit(option);
       }
     }
@@ -1961,7 +1956,7 @@ public class StatementsTraverser
     }
   }
 
-  public void visit(Option option) {
+  public void visit(ExplainStatement.Option option) {
     // nothing to do
   }
 
@@ -2002,15 +1997,15 @@ public class StatementsTraverser
       }
     }
 
-    List<TypeDefExpr> typeDefExprList = declareStatement.getTypeDefExprList();
+    List<DeclareStatement.TypeDefExpr> typeDefExprList = declareStatement.getTypeDefExprList();
     if (typeDefExprList != null) {
-      for (TypeDefExpr expr : typeDefExprList) {
+      for (DeclareStatement.TypeDefExpr expr : typeDefExprList) {
         visit(expr);
       }
     }
   }
 
-  public void visit(TypeDefExpr typeDefExpr) {
+  public void visit(DeclareStatement.TypeDefExpr typeDefExpr) {
     UserVariable userVariable = typeDefExpr.getUserVariable();
     if (userVariable != null) {
       userVariable.accept(this);
@@ -2082,9 +2077,9 @@ public class StatementsTraverser
   }
 
   public void visit(Sequence sequence) {
-    List<Parameter> parameters = sequence.getParameters();
+    List<Sequence.Parameter> parameters = sequence.getParameters();
     if (parameters != null) {
-      for (Parameter parameter : parameters) {
+      for (Sequence.Parameter parameter : parameters) {
         visit(parameter);
       }
     }
@@ -2095,7 +2090,7 @@ public class StatementsTraverser
     }
   }
 
-  public void visit(Parameter parameter) {
+  public void visit(Sequence.Parameter parameter) {
     // nothing to do
   }
 
@@ -2463,9 +2458,13 @@ public class StatementsTraverser
     }
   }
 
-  protected static <T> UnsupportedOperationException getUnsupportedException(T type) {
+  protected static <T> UnsupportedOperationException getUnsupportedException(Class<?> c, T type) {
     return new UnsupportedOperationException(
-        String.format(StatementsTraverser.class.getSimpleName() + " for %s is not supported",
+        String.format("%s for %s is not supported", c.getSimpleName(),
             type.getClass().getSimpleName()));
+  }
+
+  private static <T> UnsupportedOperationException getUnsupportedException(T type) {
+    return getUnsupportedException(StatementsTraverser.class, type);
   }
 }
