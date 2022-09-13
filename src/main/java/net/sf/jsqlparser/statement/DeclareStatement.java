@@ -204,5 +204,17 @@ public final class DeclareStatement implements Statement {
             this.colDataType = colDataType;
             this.defaultExpr = defaultExpr;
         }
+
+        public UserVariable getUserVariable() {
+            return userVariable;
+        }
+
+        public ColDataType getColDataType() {
+            return colDataType;
+        }
+
+        public Expression getDefaultExpression() {
+            return defaultExpr;
+        }
     }
 }

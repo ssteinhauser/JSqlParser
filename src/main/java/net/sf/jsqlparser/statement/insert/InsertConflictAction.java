@@ -70,6 +70,10 @@ public class InsertConflictAction {
         return this;
     }
 
+    public ArrayList<UpdateSet> getUpdateSets() {
+        return this.updateSets;
+    }
+
     public Expression getWhereExpression() {
         return whereExpression;
     }
