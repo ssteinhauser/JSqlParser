@@ -1,7 +1,9 @@
-# [JSqlParser 4.9 Website](https://jsqlparser.github.io/JSqlParser) <img src="src/site/sphinx/_images/logo-no-background.svg" alt="drawing" width="200" align="right"/>
+# [JSqlParser 5.0 Website](https://jsqlparser.github.io/JSqlParser) <img src="src/site/sphinx/_images/logo-no-background.svg" alt="drawing" width="200" align="right"/>
 
-![Build Status](https://github.com/JSQLParser/JSqlParser/actions/workflows/maven.yml/badge.svg)
-[![Build Status (Legacy)](https://travis-ci.com/JSQLParser/JSqlParser.svg?branch=master)](https://travis-ci.com/JSQLParser/JSqlParser)   [![Coverage Status](https://coveralls.io/repos/JSQLParser/JSqlParser/badge.svg?branch=master)](https://coveralls.io/r/JSQLParser/JSqlParser?branch=master) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6f9a2d7eb98f45969749e101322634a1)](https://www.codacy.com/gh/JSQLParser/JSqlParser/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JSQLParser/JSqlParser&amp;utm_campaign=Badge_Grade)
+[![Maven deploy snapshot](https://github.com/JSQLParser/JSqlParser/actions/workflows/maven_deploy.yml/badge.svg)](https://github.com/JSQLParser/JSqlParser/actions/workflows/maven_deploy.yml)
+[![Gradle CI](https://github.com/JSQLParser/JSqlParser/actions/workflows/gradle.yml/badge.svg)](https://github.com/JSQLParser/JSqlParser/actions/workflows/gradle.yml)
+[![Coverage Status](https://coveralls.io/repos/JSQLParser/JSqlParser/badge.svg?branch=master)](https://coveralls.io/r/JSQLParser/JSqlParser?branch=master) 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/6f9a2d7eb98f45969749e101322634a1)](https://www.codacy.com/gh/JSQLParser/JSqlParser/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JSQLParser/JSqlParser&amp;utm_campaign=Badge_Grade)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.jsqlparser/jsqlparser/badge.svg)](http://maven-badges.herokuapp.com/maven-central/com.github.jsqlparser/jsqlparser) [![Javadocs](https://www.javadoc.io/badge/com.github.jsqlparser/jsqlparser.svg)](https://www.javadoc.io/doc/com.github.jsqlparser/jsqlparser)
 [![Gitter](https://badges.gitter.im/JSQLParser/JSqlParser.svg)](https://gitter.im/JSQLParser/JSqlParser?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
@@ -46,7 +48,7 @@ Assertions.assertEquals("b", b.getColumnName());
 }
 ```
 
-JSQLParser-4.9 is the last JDK8 compatible version. The upcoming JSQLParser-5.0 will depend on JDK11 and introduces API breaking changes to the AST Visitors. Please see the Migration Guide for the details.
+JSQLParser-4.9 was the last JDK8 compatible version. The recent JSQLParser-5.0 depends on JDK11 and introduces API breaking changes to the AST Visitors. Please see the Migration Guide for the details.
 
 ## [Supported Grammar and Syntax](https://jsqlparser.github.io/JSqlParser/syntax.html)
 
@@ -58,6 +60,14 @@ JSQLParser-4.9 is the last JDK8 compatible version. The upcoming JSQLParser-5.0 
 | Salesforce SOQL                                                                                                 | `INCLUDES`, `EXCLUDES` |
 
 **JSqlParser** can also be used to create SQL Statements from Java Code with a fluent API (see [Samples](https://jsqlparser.github.io/JSqlParser/usage.html#build-a-sql-statements)).
+
+## Sister Projects
+
+If you like JSqlParser then please check out its related projects:
+
+* [JSQLFormatter](https://manticore-projects.com/JSQLFormatter/index.html) for pretty printing and formatting SQL Text
+
+* [JSQLTranspiler](https://manticore-projects.com/JSQLTranspiler/index.html) for dialect specific rewriting, SQL Column resolution and Lineage
 
 ## Alternatives to JSqlParser?
 [**General SQL Parser**](http://www.sqlparser.com/features/introduce.php?utm_source=github-jsqlparser&utm_medium=text-general) looks pretty good, with extended SQL syntax (like PL/SQL and T-SQL) and java + .NET APIs. The tool is commercial (license available online), with a free download option.
